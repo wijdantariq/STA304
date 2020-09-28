@@ -51,11 +51,14 @@ library(labelled)
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # Call 2019 CES online survey
-invisible(get_ces("ces2019_web"))
+sink(get_ces("ces2019_web"))
+```
 
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # Convert values to factor type
 invisible(ces2019_web <- to_factor(ces2019_web))
 ```
+
 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
@@ -73,7 +76,7 @@ The Liberal Party and the Conservative Party are the two parties that dominated 
 
 # Introduction
 
-We have used @citetidyverse
+We have used
 
 # Data
 
