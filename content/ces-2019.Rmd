@@ -51,10 +51,10 @@ library(labelled)
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # Call 2019 CES online survey
-get_ces("ces2019_web")
+invisible(get_ces("ces2019_web"))
 
 # Convert values to factor type
-ces2019_web <- to_factor(ces2019_web)
+invisible(ces2019_web <- to_factor(ces2019_web))
 ```
 
 
