@@ -1,7 +1,7 @@
 ---
-title: "Who votes for the Liberal Party and who votes for Conservative Party in Canada?"
+title: "Who votes for the Liberal Party and who votes for the Conservative Party in Canada?"
 author: "Wijdan Tariq"
-date: '2020-09-27'
+date: '2020-09-28'
 output:
   html_document:
     df_print: paged
@@ -72,11 +72,13 @@ ces2019_citizens <- group_by(ces2019_citizens, cps19_votechoice)
 
 # Abstract
 
-The Liberal Party and the Conservative Party are the two parties that dominated Canadian politics since the country's founding. In this paper, I explore survey data from the Canadian Election Study to better understand why Canadians vote for each party. My findings suggest that Canadians decide which party to vote for based on their views on decisive questions on topics such as the environment, education, defence, and immigration. The study has implications for people who are interested in understanding the factors that influence Canadian voter behavior.
+The Liberal Party and the Conservative Party are the two parties that have dominated Canadian politics since the country's founding. In this paper, I explore survey data from the Canadian Election Study to better understand why Canadians vote for each party. My findings suggest that Canadians decide which party to vote for based on their views on decisive questions on topics such as the environment, education, defence, and immigration. The study has implications for people who are interested in understanding the factors that influence Canadian voter behavior, particularly for people who are involved in making polling predictions.
 
 # Introduction
 
-We have used
+Psychology has been at the forefront of most voting decisions in liberal democracies. Citizens typically go through specific thought processes to make their selection. Their selections were potentially based on several different factors such as which candidate was going to solve the problems most personal to the citizen, which candidate was the most qualified, or even which candidate looked most like themselves. Attempting to understand and voter behaviour can give political parties an extra tool in trying to win more votes.
+
+Survey polls are often conducted during election campaign periods precisely for the reason of understanding and predicting election outcomes. Election surveys usually directly ask citizens the question "Which party do you think you will vote for?" Often, 
 
 # Data
 
