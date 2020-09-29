@@ -13,7 +13,7 @@ knitr::opts_chunk$set(collapse = TRUE)
 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-# load tidyverse, visdat, skimr, ggthemes, knitr
+# Install and load tidyverse, ggthemes, knitr, gmodels, and devtools.
 library(tidyverse)
 #install.packages("ggthemes")
 library(ggthemes)
@@ -21,21 +21,12 @@ library(ggthemes)
 library(knitr)
 #install.packages("gmodels")
 library(gmodels)
-#install.packages("gt")
-library(gt)
-library(glue)
-
 # install devtools
 #install.packages("devtools")
 library(devtools)
-
-```
-
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-### Install the tinytex package if you have not already done so. It helps in reading LaTeX code. It may take about five to ten minutes to install.
-
-#tinytex::install_tinytex()
+# install blogdown
+#install.packages("blogdown")
+library(blogdown)
 
 ```
 
@@ -51,24 +42,29 @@ library(labelled)
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # Call 2019 CES online survey
-sink(get_ces("ces2019_web"))
+get_ces("ces2019_web")
 ```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # Convert values to factor type
-invisible(ces2019_web <- to_factor(ces2019_web))
+ces2019_web <- to_factor(ces2019_web)
 ```
-
 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # Filter by Canadian citizens only, since permanent residents are not eligible to vote.
 ces2019_citizens <- ces2019_web %>% filter(ces2019_web$cps19_citizenship=="Canadian citizen")
 
-# Now filter only by those citizens who responded Liberal or Conservative to the question "Which party do you think you will vote for?" (cps19_votechoice)
-ces2019_citizens <- ces2019_citizens %>% filter(ces2019_citizens$cps19_votechoice=="Liberal Party" | ces2019_citizens$cps19_votechoice=="Conservative Party") %>% droplevels()
-ces2019_citizens <- group_by(ces2019_citizens, cps19_votechoice)
 ```
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+# Now filter only by those citizens who responded Liberal or Conservative or "Don't Know" to the question "Which party do you think you will vote for?" (cps19_votechoice)
+ces2019_citizens_vote_choice <- ces2019_citizens %>% filter(ces2019_citizens$cps19_votechoice=="Liberal Party" | ces2019_citizens$cps19_votechoice=="Conservative Party" | ces2019_citizens$cps19_votechoice=="Don't know/ Prefer not to answer") %>% droplevels()
+ces2019_citizens_vote_choice <- group_by(ces2019_citizens_vote_choice, cps19_votechoice)
+
+```
+
 
 # Abstract
 
@@ -76,36 +72,39 @@ The Liberal Party and the Conservative Party are the two parties that have domin
 
 # Introduction
 
-Psychology has been at the forefront of most voting decisions in liberal democracies. Citizens typically go through specific thought processes to make their selection. Their selections were potentially based on several different factors such as which candidate was going to solve the problems most personal to the citizen, which candidate was the most qualified, or even which candidate looked most like themselves. Attempting to understand and voter behaviour can give political parties an extra tool in trying to win more votes.
+Psychology has been at the forefront of most voting decisions in liberal democracies. Citizens typically go through specific thought processes to make their selection. Their selections are potentially based on several different factors such as which candidate was going to solve the problems most personal to the citizen, which candidate was the most qualified, or even which candidate looked most like themselves. Attempting to understand voter behaviour can give political parties an extra tool in trying to win more votes. It can also help the public to make more informed opinions on popularity polls.
 
-Survey polls are often conducted during election campaign periods precisely for the reason of understanding and predicting election outcomes. Election surveys usually directly ask citizens the question "Which party do you think you will vote for?" Often, 
+Survey polls are often conducted during election campaign periods precisely for the reason of understanding and predicting election outcomes. They often contain rich information on citizen opinions. However, they suffer from a major problem. Election surveys usually directly ask citizens the question "Which party do you think you will vote for?" Often, there is a significant percentage of respondents who do not answer this question. In the Canadian Election Study of 2019 (CES 2019), item non-response constituted the third-largest group behind the Liberal and Conservative voters.
+
+The non-response to this critical survey question is deeply problematic, because it is precisely this question that dominates the media headlines. There is evidence of herd-like behaviour during election time where voters simply cast their ballot for the party that is reported to be the most popular by the media (Traugott, 1992). To avoid this problematic situation, I present evidence in this paper that suggests that we can come up with an indirect method of attaching a probability response to this question by using the survey responses to other questions. My analysis shows that questions on federal government spending on education, defence, immigrants & minorities, and the environment are potentially powerful predictors of voter choice. Other variables, such as whether a citizen holds a university degree, their income bracket, and the province in which they reside, could also be helpful predictors. 
+
+In the next section, I briefly describe the CES 2019 data and visually present the results. After that, I discuss and summarize the findings. I conclude with a brief discussion on future work in this area and the limitations of this analysis.
 
 # Data
 
-The data was obtained from the online survey data of the Canadian Election Study 2019 (Stephenson et al., 2020; Stephenson et al., forthcoming) using an R Package created by Hodgetts and Alexander (2020). The online survey was conducted during the Canadian Federal Election campaign period. The elections took place on October 21, 2019 and the survey collection period as September 13 to October 21. As such, answers of voters to the question of which party they would vote for would be quite representative of the final election outcome. Data was collected from 37,822 people, including non-citizens. I filtered the data by citizens only, since permanent residents are not eligible to vote. Furthermore, I limited my analysis to voters who responded "Liberal Party" or "Conservative Party" to the question of which party they are most likely to cast their vote for. This is in order to make the analysis more manageable, but also because these are the two parties that have always dominated the Canadian political scene including in the 2019 elections.
+The data was obtained from the online survey data of the Canadian Election Study 2019 (Stephenson et al., 2020; Stephenson et al., forthcoming) using an R Package created by Hodgetts and Alexander (2020). The online survey was conducted during the Canadian Federal Election campaign period. The elections took place on October 21, 2019 and the survey collection period as September 13 to October 21. As such, answers of voters to the question of which party they would vote for would be quite representative of the final election outcome. Data was collected from 37,822 people, including non-citizens. In unreported results, I compared the geographic spread of the provinces where the respondent lived with the distribution of Canada's in those provinces and they matched almost identically. Furthermore, given that over 90% of the Canadian population has access to the internet (Statistics Canada, 2019), I have no reason to believe that the survey suffered from any major sampling error.
 
-The first table shows aggregate data on the number of voters in the sample for each party.
+I filtered the data by citizens only, since permanent residents are not eligible to vote. This reduced my sample to 36,480 citizens. Furthermore, I limited my analysis to voters who responded "Liberal Party" or "Conservative Party" to the question of which party they are most likely to cast their vote for. This is in order to make the analysis more manageable, but also because these are the two parties that have always dominated the Canadian political scene including in the 2019 elections.
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap = 'Number of votes for each party.'}
-library(ggplot2) 
-ggplot(ces2019_citizens,aes(x=cps19_votechoice, fill=cps19_votechoice)) + geom_bar() + scale_color_fivethirtyeight() + theme_fivethirtyeight() + labs(title="Federal vote intent was neck and neck") + theme(legend.title = element_blank())
+The first chart shows aggregate data on the number of voters in the sample for each of the two leading parties. I have also included the degree of item non-response in this chart. Note that the non-response rate to this question constituted 15.5% of the total of 36,480 citizens who responded to this survey. To give you an idea, out of all citizens surveyed, 28.4% showed their intent to vote for the Liberal Party, 27.6% for the Conservative Party, and 13.7% for the NDP which was the third most popular party. Therefore, the non-response rate was higher than those who said they intended to vote for the NDP.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Responses to the question 'Which party do you think you will vote for?'"}
+library(ggplot2)
+ggplot(ces2019_citizens_vote_choice,aes(x=cps19_votechoice, fill=cps19_votechoice)) + geom_bar() + scale_color_fivethirtyeight() + theme_fivethirtyeight() + labs(title="Federal vote choice was neck and neck...", subtitle = "...but there was a high non-response rate!") + theme(legend.title = element_blank())
 ```
-Interestingly, the two party voters have very similar age demographics. On the other hand, there seems to be a trend in income categories. More lower income voters tend to vote for the Liberal Party whilst more higher income voters tend to vote for the Conservative Party. Of those who did not disclose their households incomes, about 53% would vote Conservative and about 47% would vote Liberal.
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE, tab.cap = 'Descriptive statistics for voter age.', evaluate=FALSE}
-# Distribution of ages is very similar
-summary_age <- as.data.frame(summarise(ces2019_citizens, n = n(), Q1=quantile(cps19_age, 0.25),median = median(cps19_age),mean = mean(cps19_age), Q3=quantile(cps19_age, 0.75), sd = sd(cps19_age)))
-colnames(summary_age)[1] <- "Voter Choice"
-colnames(summary_age)[4] <- "Median"
-colnames(summary_age)[5] <- "Mean"
-colnames(summary_age)[7] <- "St. Dev"
-summary_age %>% gt() %>%
-  tab_header(
-    title = "Descriptive Statistics for Voter Age",
-  )
-```
+Finally, I filtered out the non-responses to this question to focus solely on those who said they would vote for Liberal or Conservative. The final sample was reduced to 17,662 people.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
+# Filter out the non-responses to focus only on Liberal and Conservative voters.
+ces2019_citizens <- ces2019_web %>% filter(ces2019_web$cps19_citizenship=="Canadian citizen")
+ces2019_citizens<- ces2019_citizens %>% filter(ces2019_citizens$cps19_votechoice=="Liberal Party" | ces2019_citizens$cps19_votechoice=="Conservative Party") %>% droplevels()
+ces2019_citizens <- group_by(ces2019_citizens, cps19_votechoice)
+
+```
+
+Interestingly, the two party voters have very similar age demographics with the average ages of Liberal and Conservative voters 50 and 51 years respectively and median ages of 51 and 53 years respectively. On the other hand, there seems to be a noticeable trend in income categories. Lower income voters tend to vote more for the Liberal Party whilst higher income voters tend to vote for the Conservative Party. Of those who did not disclose their households incomes, about 53% would vote Conservative and about 47% would vote Liberal.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Responses to the question 'We don't need the exact amount; does your household income fall into one of these broad categories?'"}
 # Income trends.
 income_table <- table(ces2019_citizens$cps19_income_cat, ces2019_citizens$cps19_votechoice)
 #ftable(income_table)
@@ -118,11 +117,9 @@ colnames(income_table_prop)[3] <- "Percentage"
 ggplot(income_table_prop, aes(fill=income_table_prop$"Voter Choice", y=income_table_prop$"Percentage", x=income_table_prop$"Income Category")) + geom_bar(position="fill", stat="identity") + labs(title="Lower income families tend to vote for the Liberal Party") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
 
 ```
+There were strong provincial trends in voter choice. Notice the strong support for the Conservative Party in Alberta, Manitoba, and Saskatchewan. The Liberal Party enjoyed strong support in Ontario, Quebec, and Nova Scotia. British Columbia seems a nearly even split. 
 
-
-There were strong provincial trends in voter behavior.Notice the strong support for the Conservative Party in Alberta, Manitoba, and Saskatchewan. The Liberal Party enjoyed strong support in Ontario, Quebec, and Nova Scotia. British Columbia seems a nearly even split. 
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Respondents' province of residence during the survey period."}
 # Provincial trends.
 
 province_table <- table(ces2019_citizens$cps19_province, ces2019_citizens$cps19_votechoice)
@@ -138,7 +135,7 @@ ggplot(province_table_prop, aes(fill=province_table_prop$"Voter Choice", y=provi
 ```
 University degree holders tend to vote for the Liberal Party. Notice that a higher percentage of people who did not disclose their level of education were likely to vote for the Conservative Party.
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Highest level of education of respondents."}
 
 education_level_df <- ces2019_citizens %>% select(cps19_education, cps19_votechoice)
 education_level_df <- education_level_df %>% mutate(new_col=as.numeric(cps19_education))
@@ -158,10 +155,12 @@ education_table_prop$Education <- factor(education_table_prop$Education, levels=
 ggplot(education_table_prop, aes(fill=education_table_prop$"Voter Choice", y=education_table_prop$"Percentage", x=education_table_prop$"Education")) + geom_bar(position="fill", stat="identity") + labs(title="University degree holders tend to vote for the Liberal Party") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
 ```
 
-Perhaps the most decisive factor of all was the answer to the question "Thinking about government spending, should the federal government spend more, less, or about the same as now on the following areas?". The areas included education, the environment, justice & law, defence, and immigrant & minorities. The following tables show that the answer to these questions is strongly associated with the voter's party choice.
+Perhaps the most decisive factor of all was the answer to the question "Thinking about government spending, should the federal government spend more, less, or about the same as now on the following areas?". The areas included education, the environment, justice & law, defence, and immigrant & minorities. The following graphs show that the answer to these questions is strongly associated with the voter's party choice. The only point of agreement seemed to be the issue of spending related to justice & law.
+
+I summarize these findings in the next section.
 
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="'How much should the federal government spend on education?'"}
 # Spending on education?
 
 spending_education <- table(ces2019_citizens$cps19_spend_educ, ces2019_citizens$cps19_votechoice)
@@ -171,12 +170,12 @@ colnames(spending_education_prop)[2] <- "Voter Choice"
 colnames(spending_education_prop)[3] <- "Percentage"
 
 # Stacked + percent
-ggplot(spending_education_prop, aes(fill=spending_education_prop$"Voter Choice", y=spending_education_prop$"Percentage", x=spending_education_prop$"View on Education Spending")) + geom_bar(position="fill", stat="identity") + labs(title="Views on education spending influence voter behavior") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
+ggplot(spending_education_prop, aes(fill=spending_education_prop$"Voter Choice", y=spending_education_prop$"Percentage", x=spending_education_prop$"View on Education Spending")) + geom_bar(position="fill", stat="identity") + labs(title="Views on education spending is strongly associated with voter choice") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
 
 ```
 
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="'How much should the federal government spend on the environment?'"}
 # Spending on environment?
 spending_env <- table(ces2019_citizens$cps19_spend_env, ces2019_citizens$cps19_votechoice)
 spending_env_prop <- as.data.frame(prop.table(spending_env, 1)*100)
@@ -185,11 +184,11 @@ colnames(spending_env_prop)[2] <- "Voter Choice"
 colnames(spending_env_prop)[3] <- "Percentage"
 
 # Stacked + percent
-ggplot(spending_env_prop, aes(fill=spending_env_prop$"Voter Choice", y=spending_env_prop$"Percentage", x=spending_env_prop$"View on Environment Spending")) + geom_bar(position="fill", stat="identity") + labs(title="Views on environment spending influence voter behavior") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
+ggplot(spending_env_prop, aes(fill=spending_env_prop$"Voter Choice", y=spending_env_prop$"Percentage", x=spending_env_prop$"View on Environment Spending")) + geom_bar(position="fill", stat="identity") + labs(title="Views on environment spending appear to be deeply polarizing") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
 ```
 
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="'How much should the federal government spend on justice and law?'"}
 # Spending on justice and law?
 spending_just_law <- table(ces2019_citizens$cps19_spend_just_law, ces2019_citizens$cps19_votechoice)
 spending_just_law_prop <- as.data.frame(prop.table(spending_just_law, 1)*100)
@@ -198,11 +197,11 @@ colnames(spending_just_law_prop)[2] <- "Voter Choice"
 colnames(spending_just_law_prop)[3] <- "Percentage"
 
 # Stacked + percent
-ggplot(spending_just_law_prop, aes(fill=spending_just_law_prop$"Voter Choice", y=spending_just_law_prop$"Percentage", x=spending_just_law_prop$"View on Justice and Law Spending")) + geom_bar(position="fill", stat="identity") + labs(title="Views on justice and law spending influence voter behavior") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
+ggplot(spending_just_law_prop, aes(fill=spending_just_law_prop$"Voter Choice", y=spending_just_law_prop$"Percentage", x=spending_just_law_prop$"View on Justice and Law Spending")) + geom_bar(position="fill", stat="identity") + labs(title="A consensus on justice and law spending?") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
 ```
 
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="'How much should the federal government spend on defence?'"}
 # Spending on defence?
 spending_defence <- table(ces2019_citizens$cps19_spend_defence, ces2019_citizens$cps19_votechoice)
 spending_defence_prop <- as.data.frame(prop.table(spending_defence, 1)*100)
@@ -211,11 +210,11 @@ colnames(spending_defence_prop)[2] <- "Voter Choice"
 colnames(spending_defence_prop)[3] <- "Percentage"
 
 # Stacked + percent
-ggplot(spending_defence_prop, aes(fill=spending_defence_prop$"Voter Choice", y=spending_defence_prop$"Percentage", x=spending_defence_prop$"View on Defence Spending")) + geom_bar(position="fill", stat="identity") + labs(title="Views on defence spending influence voter behavior") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
+ggplot(spending_defence_prop, aes(fill=spending_defence_prop$"Voter Choice", y=spending_defence_prop$"Percentage", x=spending_defence_prop$"View on Defence Spending")) + geom_bar(position="fill", stat="identity") + labs(title="Views on defence spending seems to be important") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
 ```
 
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="'How much should the federal government spend on immigrants and minorities?'"}
 # Spending on immigrants and minorities?
 spending_imm_min <- table(ces2019_citizens$cps19_spend_imm_min, ces2019_citizens$cps19_votechoice)
 spending_imm_min_prop <- as.data.frame(prop.table(spending_imm_min, 1)*100)
@@ -224,10 +223,10 @@ colnames(spending_imm_min_prop)[2] <- "Voter Choice"
 colnames(spending_imm_min_prop)[3] <- "Percentage"
 
 # Stacked + percent
-ggplot(spending_imm_min_prop, aes(fill=spending_imm_min_prop$"Voter Choice", y=spending_imm_min_prop$"Percentage", x=spending_imm_min_prop$"View on Immigrant and Minorities Spending")) + geom_bar(position="fill", stat="identity") + labs(title="Views on immigrant and minorities spending influence voter behavior") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
+ggplot(spending_imm_min_prop, aes(fill=spending_imm_min_prop$"Voter Choice", y=spending_imm_min_prop$"Percentage", x=spending_imm_min_prop$"View on Immigrant and Minorities Spending")) + geom_bar(position="fill", stat="identity") + labs(title="Views on immigrant and minorities spending appear to be polarizing") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Reactions to the statement 'When there is a conflict between protecting the environment and creating jobs, jobs should come first.'"}
 # When there is a conflict between protecting the environment and creating jobs, jobs should come first.?
 pos_jobs <- table(ces2019_citizens$cps19_pos_jobs, ces2019_citizens$cps19_votechoice)
 pos_jobs_prop <- as.data.frame(prop.table(pos_jobs, 1)*100)
@@ -239,7 +238,7 @@ colnames(pos_jobs_prop)[3] <- "Percentage"
 ggplot(pos_jobs_prop, aes(fill=pos_jobs_prop$"Voter Choice", y=pos_jobs_prop$"Percentage", x=pos_jobs_prop$"Jobs more important than environment")) + geom_bar(position="fill", stat="identity") + labs(title="Position on 'protecting jobs is more important than protecting the environment'") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="'Reactions to the question on 'Do you think Canada should admit more/fewer/about the same immigrants (or don't know)'"}
 # Do you think Canada should admit more or fewer immigrants?
 imm <- table(ces2019_citizens$cps19_imm, ces2019_citizens$cps19_votechoice)
 imm_prop <- as.data.frame(prop.table(imm, 1)*100)
@@ -251,7 +250,7 @@ colnames(imm_prop)[3] <- "Percentage"
 ggplot(imm_prop, aes(fill=imm_prop$"Voter Choice", y=imm_prop$"Percentage", x=imm_prop$"More or less immigrants")) + geom_bar(position="fill", stat="identity") + labs(title="Position on 'Canada should admit more or fewer immigrants'") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="'Reactions to the question on 'Do you think Canada should admit more/fewer/about the same refugees (or don't know)'"}
 # Do you think Canada should admit more or fewer refugees?
 refugees <- table(ces2019_citizens$cps19_refugees, ces2019_citizens$cps19_votechoice)
 refugees_prop <- as.data.frame(prop.table(refugees, 1)*100)
@@ -263,18 +262,35 @@ colnames(refugees_prop)[3] <- "Percentage"
 ggplot(refugees_prop, aes(fill=refugees_prop$"Voter Choice", y=refugees_prop$"Percentage", x=refugees_prop$"More or less refugees")) + geom_bar(position="fill", stat="identity") + labs(title="Position on 'Canada should admit more or fewer refugees'") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
 ```
 
-
 # Discussion
 
+I summarize the trends in the data as follows:
 
+* Majority of those who said government should spend more on education were Liberal voters, whereas an overwhelming majority of those who said government should spend less on education were Conservative voters.
 
+* Nearly 87% of those who said the government should spend less on the environment were Conservative voters, whilst nearly 65% of those who said the government should spend more on the environment were Liberal voters.
 
+* There seemed to be a balance of views on justice and law spending. This was perhaps the least polarizing issue.
+
+* Most of those who said the government should spend less on defence where Liberal voters, whereas most of those who said government should spend more on defence were Conservative voters.
+
+* Nearly 75% of those said the government should spend less on immigrants and minorities were Conservative voters, whereas more than 75% of those who said the government should spend more on immigrants and minorities were Liberal voters. Those who preferred not to answer this question were split 50/50 between the two groups.
+
+* Over 75% of those who strongly disagreed with the statement that "protecting jobs is more important than protecting the environment" were Liberal voters, whereas nearly 75% of those who strongly agreed with the statement were Conservative voters. Those were neither agreed or disagreed with the statement were split nearly 50/50 between the two groups.
+
+* About 75% of those who said Canada should admit more immigrants were Liberal supporters, whilst nearly 75% of those who said Canada should admit fewer immigrants were Conservative supporters. Those who didn't know or didn't respond to this statement were split 50/50 between the two groups. A similar trend was seen on the question of refugees.
+
+These results suggest that I have identified some potentially powerful predictors for voter choice. When asked the question directly "Which party do you think you will vote for?", a significant amount of the survey respondents refuse to answer the question or simply do not know. I am suggesting that we can use these variables indirectly to devise a probability model that can generate a reliable probability of who the respondent will vote for in the federal election. This could potentially help in the gap for a significant portion of the non-responses to the question of vote choice.
+
+A word of caution needs to be made here. With the way that the survey question was designed, it is difficult to distinguish between those who genuinely do not know who they plan to vote from those who refuse to disclose their voting preferences. This is an important limitation of the survey design. It would perhaps be more useful to delineate the two responses for future surveys.
 
 # Next steps
 
-It is important to simultaneously control for the multiple factors that may affect voter behavior in order to address the issue of confounding variables. Statistical models such as the multiple regression model do just that. More specifically, the logistic regression model could be utilized to generate the probability that a voter would vote for Liberal or Conservative depending on the factors discussed in this paper. Moreoever, the regression model would also be able estimate the impact of each factor on the likelihood of the party vote.
+It is important to simultaneously control for the multiple factors that may affect voter behavior in order to address the issue of confounding variables. Statistical models such as the multiple regression model do just that. More specifically, the logistic regression model could be utilized to generate the probability that a voter would vote for Liberal or Conservative depending on the factors discussed in this paper. Moreover, the regression model would also be able estimate the impact of each factor on the likelihood of the party vote.
 
-It is important to mention that I did not take into account a few other important variables. Economic perceptions which have been shown to have a significant impact on votes (Lewis-Beck, Nadeau, and Elias; 2008). As such, this might be an important confounding variable that should be included in any future analysis.
+I did not take into account a few other important variables. Economic perceptions which have been shown to have a significant impact on votes (Lewis-Beck, Nadeau, and Elias, 2008). As such, this might be an important confounding variable that should be included in any future analysis.
+
+Future work can test the validity of the predictors that I have identified by running a regression using these variables, and comparing model prediction's with post-election results which are also available.
 
 # References
 
@@ -290,6 +306,17 @@ Stephenson, Laura B; Harell, Allison; Rubenson, Daniel; Loewen, Peter John, 2020
 
 Stephenson, Laura, Allison Harrel, Daniel Rubenson and Peter Loewen. Forthcoming. 'Measuring Preferences and Behaviour in the 2019 Canadian Election Study,' *Canadian Journal of Political Science*.
 
+Traugott, M. W. (1992). The impact of media polls on the public. In: *Media polls in American politics*, pp. 125-149.
+
 Wickham et al., (2020). devtools: Tools to Make Developing R Packages Easier. R package version 2.3.2. https://CRAN.R-project.org/package=devtools
 
 Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686
+
+Yihui Xie (2020). blogdown: Create Blogs and Websites with R Markdown. R package version 0.20.
+
+Yihui Xie (2020). knitr: A General-Purpose Package for Dynamic Report Generation in R. R package version 1.30.
+
+# Notes
+
+The code to generate this page is saved as "ces-2019.Rmd" and is available on my Github page: https://github.com/wijdantariq/STA304-PS1/tree/master/content
+

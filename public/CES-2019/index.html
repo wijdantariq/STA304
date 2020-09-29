@@ -6,8 +6,8 @@
 <meta name="generator" content="Hugo 0.75.1" />
 
 
-<title>Who votes for the Liberal Party and who votes for Conservative Party in Canada? - Wijdan Tariq&#39;s Blog</title>
-<meta property="og:title" content="Who votes for the Liberal Party and who votes for Conservative Party in Canada? - Wijdan Tariq&#39;s Blog">
+<title>Who votes for the Liberal Party and who votes for the Conservative Party in Canada? - Wijdan Tariq&#39;s Blog</title>
+<meta property="og:title" content="Who votes for the Liberal Party and who votes for the Conservative Party in Canada? - Wijdan Tariq&#39;s Blog">
 
 
   <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
@@ -60,7 +60,7 @@
 
 <main class="content" role="main">
 
-    <h1 class="article-title">Who votes for the Liberal Party and who votes for Conservative Party in Canada?</h1>
+    <h1 class="article-title">Who votes for the Liberal Party and who votes for the Conservative Party in Canada?</h1>
 
     
     
@@ -72,427 +72,124 @@
 ## 
 ## - Stephenson, Laura B; Harell, Allison; Rubenson, Daniel; Loewen, Peter John, 2020, &#39;2019 Canadian Election Study - Online Survey&#39;, https://doi.org/10.7910/DVN/DUS88V, Harvard Dataverse, V1
 ## 
-## - Stephenson, Laura, Allison Harrel, Daniel Rubenson and Peter Loewen. Forthcoming. &#39;Measuring Preferences and Behaviour in the 2019 Canadian Election Study,&#39; Canadian Journal of Political Science.</code></pre>
+## - Stephenson, Laura, Allison Harrel, Daniel Rubenson and Peter Loewen. Forthcoming. &#39;Measuring Preferences and Behaviour in the 2019 Canadian Election Study,&#39; Canadian Journal of Political Science.
+## 
+## LINK: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DUS88V</code></pre>
 <div id="abstract" class="section level1">
 <h1>Abstract</h1>
-<p>The Liberal Party and the Conservative Party are the two parties that dominated Canadian politics since the country’s founding. In this paper, I explore survey data from the Canadian Election Study to better understand why Canadians vote for each party. My findings suggest that Canadians decide which party to vote for based on their views on decisive questions on topics such as the environment, education, defence, and immigration. The study has implications for people who are interested in understanding the factors that influence Canadian voter behavior.</p>
+<p>The Liberal Party and the Conservative Party are the two parties that have dominated Canadian politics since the country’s founding. In this paper, I explore survey data from the Canadian Election Study to better understand why Canadians vote for each party. My findings suggest that Canadians decide which party to vote for based on their views on decisive questions on topics such as the environment, education, defence, and immigration. The study has implications for people who are interested in understanding the factors that influence Canadian voter behavior, particularly for people who are involved in making polling predictions.</p>
 </div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>We have used</p>
+<p>Psychology has been at the forefront of most voting decisions in liberal democracies. Citizens typically go through specific thought processes to make their selection. Their selections are potentially based on several different factors such as which candidate was going to solve the problems most personal to the citizen, which candidate was the most qualified, or even which candidate looked most like themselves. Attempting to understand voter behaviour can give political parties an extra tool in trying to win more votes. It can also help the public to make more informed opinions on popularity polls.</p>
+<p>Survey polls are often conducted during election campaign periods precisely for the reason of understanding and predicting election outcomes. They often contain rich information on citizen opinions. However, they suffer from a major problem. Election surveys usually directly ask citizens the question “Which party do you think you will vote for?” Often, there is a significant percentage of respondents who do not answer this question. In the Canadian Election Study of 2019 (CES 2019), item non-response constituted the third-largest group behind the Liberal and Conservative voters.</p>
+<p>The non-response to this critical survey question is deeply problematic, because it is precisely this question that dominates the media headlines. There is evidence of herd-like behaviour during election time where voters simply cast their ballot for the party that is reported to be the most popular by the media (Traugott, 1992). To avoid this problematic situation, I present evidence in this paper that suggests that we can come up with an indirect method of attaching a probability response to this question by using the survey responses to other questions. My analysis shows that questions on federal government spending on education, defence, immigrants &amp; minorities, and the environment are potentially powerful predictors of voter choice. Other variables, such as whether a citizen holds a university degree, their income bracket, and the province in which they reside, could also be helpful predictors.</p>
+<p>In the next section, I briefly describe the CES 2019 data and visually present the results. After that, I discuss and summarize the findings. I conclude with a brief discussion on future work in this area and the limitations of this analysis.</p>
 </div>
 <div id="data" class="section level1">
 <h1>Data</h1>
-<p>The data was obtained from the online survey data of the Canadian Election Study 2019 (Stephenson et al., 2020; Stephenson et al., forthcoming) using an R Package created by Hodgetts and Alexander (2020). The online survey was conducted during the Canadian Federal Election campaign period. The elections took place on October 21, 2019 and the survey collection period as September 13 to October 21. As such, answers of voters to the question of which party they would vote for would be quite representative of the final election outcome. Data was collected from 37,822 people, including non-citizens. I filtered the data by citizens only, since permanent residents are not eligible to vote. Furthermore, I limited my analysis to voters who responded “Liberal Party” or “Conservative Party” to the question of which party they are most likely to cast their vote for. This is in order to make the analysis more manageable, but also because these are the two parties that have always dominated the Canadian political scene including in the 2019 elections.</p>
-<p>The first table shows aggregate data on the number of voters in the sample for each party.</p>
+<p>The data was obtained from the online survey data of the Canadian Election Study 2019 (Stephenson et al., 2020; Stephenson et al., forthcoming) using an R Package created by Hodgetts and Alexander (2020). The online survey was conducted during the Canadian Federal Election campaign period. The elections took place on October 21, 2019 and the survey collection period as September 13 to October 21. As such, answers of voters to the question of which party they would vote for would be quite representative of the final election outcome. Data was collected from 37,822 people, including non-citizens. In unreported results, I compared the geographic spread of the provinces where the respondent lived with the distribution of Canada’s in those provinces and they matched almost identically. Furthermore, given that over 90% of the Canadian population has access to the internet (Statistics Canada, 2019), I have no reason to believe that the survey suffered from any major sampling error.</p>
+<p>I filtered the data by citizens only, since permanent residents are not eligible to vote. This reduced my sample to 36,480 citizens. Furthermore, I limited my analysis to voters who responded “Liberal Party” or “Conservative Party” to the question of which party they are most likely to cast their vote for. This is in order to make the analysis more manageable, but also because these are the two parties that have always dominated the Canadian political scene including in the 2019 elections.</p>
+<p>The first chart shows aggregate data on the number of voters in the sample for each of the two leading parties. I have also included the degree of item non-response in this chart. Note that the non-response rate to this question constituted 15.5% of the total of 36,480 citizens who responded to this survey. To give you an idea, out of all citizens surveyed, 28.4% showed their intent to vote for the Liberal Party, 27.6% for the Conservative Party, and 13.7% for the NDP which was the third most popular party. Therefore, the non-response rate was higher than those who said they intended to vote for the NDP.</p>
 <div class="figure"><span id="fig:unnamed-chunk-7"></span>
-<img src="/ces-2019_files/figure-html/unnamed-chunk-7-1.png" alt="Number of votes for each party." width="672" />
+<img src="/ces-2019_files/figure-html/unnamed-chunk-7-1.png" alt="Responses to the question 'Which party do you think you will vote for?'" width="672" />
 <p class="caption">
-Figure 1: Number of votes for each party.
+Figure 1: Responses to the question ‘Which party do you think you will vote for?’
 </p>
 </div>
-<p>Interestingly, the two party voters have very similar age demographics. On the other hand, there seems to be a trend in income categories. More lower income voters tend to vote for the Liberal Party whilst more higher income voters tend to vote for the Conservative Party. Of those who did not disclose their households incomes, about 53% would vote Conservative and about 47% would vote Liberal.</p>
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
-}
-
-#mihmenmkbg .gt_table {
-  display: table;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#mihmenmkbg .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#mihmenmkbg .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#mihmenmkbg .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 4px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#mihmenmkbg .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mihmenmkbg .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#mihmenmkbg .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#mihmenmkbg .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#mihmenmkbg .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#mihmenmkbg .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#mihmenmkbg .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#mihmenmkbg .gt_group_heading {
-  padding: 8px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#mihmenmkbg .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#mihmenmkbg .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#mihmenmkbg .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#mihmenmkbg .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#mihmenmkbg .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 12px;
-}
-
-#mihmenmkbg .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mihmenmkbg .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-}
-
-#mihmenmkbg .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mihmenmkbg .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#mihmenmkbg .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#mihmenmkbg .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mihmenmkbg .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#mihmenmkbg .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding: 4px;
-}
-
-#mihmenmkbg .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#mihmenmkbg .gt_sourcenote {
-  font-size: 90%;
-  padding: 4px;
-}
-
-#mihmenmkbg .gt_left {
-  text-align: left;
-}
-
-#mihmenmkbg .gt_center {
-  text-align: center;
-}
-
-#mihmenmkbg .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#mihmenmkbg .gt_font_normal {
-  font-weight: normal;
-}
-
-#mihmenmkbg .gt_font_bold {
-  font-weight: bold;
-}
-
-#mihmenmkbg .gt_font_italic {
-  font-style: italic;
-}
-
-#mihmenmkbg .gt_super {
-  font-size: 65%;
-}
-
-#mihmenmkbg .gt_footnote_marks {
-  font-style: italic;
-  font-size: 65%;
-}
-</style>
-<div id="mihmenmkbg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
-  <thead class="gt_header">
-    <tr>
-      <th colspan="7" class="gt_heading gt_title gt_font_normal" style>Descriptive Statistics for Voter Age</th>
-    </tr>
-    <tr>
-      <th colspan="7" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style></th>
-    </tr>
-  </thead>
-  <thead class="gt_col_headings">
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Voter Choice</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">n</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Q1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Median</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Mean</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Q3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">St. Dev</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr>
-      <td class="gt_row gt_center">Liberal Party</td>
-      <td class="gt_row gt_center">8949</td>
-      <td class="gt_row gt_right">36</td>
-      <td class="gt_row gt_right">51</td>
-      <td class="gt_row gt_right">50.08884</td>
-      <td class="gt_row gt_right">64</td>
-      <td class="gt_row gt_right">16.70626</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_center">Conservative Party</td>
-      <td class="gt_row gt_center">8713</td>
-      <td class="gt_row gt_right">39</td>
-      <td class="gt_row gt_right">53</td>
-      <td class="gt_row gt_right">51.56203</td>
-      <td class="gt_row gt_right">64</td>
-      <td class="gt_row gt_right">16.01937</td>
-    </tr>
-  </tbody>
-  
-  
-</table></div>
-<p><img src="/ces-2019_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p>There were strong provincial trends in voter behavior.Notice the strong support for the Conservative Party in Alberta, Manitoba, and Saskatchewan. The Liberal Party enjoyed strong support in Ontario, Quebec, and Nova Scotia. British Columbia seems a nearly even split.</p>
-<p><img src="/ces-2019_files/figure-html/unnamed-chunk-10-1.png" width="672" />
-University degree holders tend to vote for the Liberal Party. Notice that a higher percentage of people who did not disclose their level of education were likely to vote for the Conservative Party.</p>
-<p><img src="/ces-2019_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>Perhaps the most decisive factor of all was the answer to the question “Thinking about government spending, should the federal government spend more, less, or about the same as now on the following areas?”. The areas included education, the environment, justice &amp; law, defence, and immigrant &amp; minorities. The following tables show that the answer to these questions is strongly associated with the voter’s party choice.</p>
-<p><img src="/ces-2019_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<p><img src="/ces-2019_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<p><img src="/ces-2019_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-<p><img src="/ces-2019_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-<p><img src="/ces-2019_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p><img src="/ces-2019_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-<p><img src="/ces-2019_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<p><img src="/ces-2019_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>Finally, I filtered out the non-responses to this question to focus solely on those who said they would vote for Liberal or Conservative. The final sample was reduced to 17,662 people.</p>
+<p>Interestingly, the two party voters have very similar age demographics with the average ages of Liberal and Conservative voters 50 and 51 years respectively and median ages of 51 and 53 years respectively. On the other hand, there seems to be a noticeable trend in income categories. Lower income voters tend to vote more for the Liberal Party whilst higher income voters tend to vote for the Conservative Party. Of those who did not disclose their households incomes, about 53% would vote Conservative and about 47% would vote Liberal.</p>
+<div class="figure"><span id="fig:unnamed-chunk-9"></span>
+<img src="/ces-2019_files/figure-html/unnamed-chunk-9-1.png" alt="Responses to the question 'We don't need the exact amount; does your household income fall into one of these broad categories?'" width="672" />
+<p class="caption">
+Figure 2: Responses to the question ‘We don’t need the exact amount; does your household income fall into one of these broad categories?’
+</p>
+</div>
+<p>There were strong provincial trends in voter choice. Notice the strong support for the Conservative Party in Alberta, Manitoba, and Saskatchewan. The Liberal Party enjoyed strong support in Ontario, Quebec, and Nova Scotia. British Columbia seems a nearly even split.</p>
+<div class="figure"><span id="fig:unnamed-chunk-10"></span>
+<img src="/ces-2019_files/figure-html/unnamed-chunk-10-1.png" alt="Respondents' province of residence during the survey period." width="672" />
+<p class="caption">
+Figure 3: Respondents’ province of residence during the survey period.
+</p>
+</div>
+<p>University degree holders tend to vote for the Liberal Party. Notice that a higher percentage of people who did not disclose their level of education were likely to vote for the Conservative Party.</p>
+<div class="figure"><span id="fig:unnamed-chunk-11"></span>
+<img src="/ces-2019_files/figure-html/unnamed-chunk-11-1.png" alt="Highest level of education of respondents." width="672" />
+<p class="caption">
+Figure 4: Highest level of education of respondents.
+</p>
+</div>
+<p>Perhaps the most decisive factor of all was the answer to the question “Thinking about government spending, should the federal government spend more, less, or about the same as now on the following areas?”. The areas included education, the environment, justice &amp; law, defence, and immigrant &amp; minorities. The following graphs show that the answer to these questions is strongly associated with the voter’s party choice. The only point of agreement seemed to be the issue of spending related to justice &amp; law.</p>
+<p>I summarize these findings in the next section.</p>
+<div class="figure"><span id="fig:unnamed-chunk-12"></span>
+<img src="/ces-2019_files/figure-html/unnamed-chunk-12-1.png" alt="'How much should the federal government spend on education?'" width="672" />
+<p class="caption">
+Figure 5: ‘How much should the federal government spend on education?’
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-13"></span>
+<img src="/ces-2019_files/figure-html/unnamed-chunk-13-1.png" alt="'How much should the federal government spend on the environment?'" width="672" />
+<p class="caption">
+Figure 6: ‘How much should the federal government spend on the environment?’
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-14"></span>
+<img src="/ces-2019_files/figure-html/unnamed-chunk-14-1.png" alt="'How much should the federal government spend on justice and law?'" width="672" />
+<p class="caption">
+Figure 7: ‘How much should the federal government spend on justice and law?’
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-15"></span>
+<img src="/ces-2019_files/figure-html/unnamed-chunk-15-1.png" alt="'How much should the federal government spend on defence?'" width="672" />
+<p class="caption">
+Figure 8: ‘How much should the federal government spend on defence?’
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-16"></span>
+<img src="/ces-2019_files/figure-html/unnamed-chunk-16-1.png" alt="'How much should the federal government spend on immigrants and minorities?'" width="672" />
+<p class="caption">
+Figure 9: ‘How much should the federal government spend on immigrants and minorities?’
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-17"></span>
+<img src="/ces-2019_files/figure-html/unnamed-chunk-17-1.png" alt="Reactions to the statement 'When there is a conflict between protecting the environment and creating jobs, jobs should come first.'" width="672" />
+<p class="caption">
+Figure 10: Reactions to the statement ‘When there is a conflict between protecting the environment and creating jobs, jobs should come first.’
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-18"></span>
+<img src="/ces-2019_files/figure-html/unnamed-chunk-18-1.png" alt="'Reactions to the question on 'Do you think Canada should admit more/fewer/about the same immigrants (or don't know)'" width="672" />
+<p class="caption">
+Figure 11: ‘Reactions to the question on ’Do you think Canada should admit more/fewer/about the same immigrants (or don’t know)’
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-19"></span>
+<img src="/ces-2019_files/figure-html/unnamed-chunk-19-1.png" alt="'Reactions to the question on 'Do you think Canada should admit more/fewer/about the same refugees (or don't know)'" width="672" />
+<p class="caption">
+Figure 12: ‘Reactions to the question on ’Do you think Canada should admit more/fewer/about the same refugees (or don’t know)’
+</p>
+</div>
 </div>
 <div id="discussion" class="section level1">
 <h1>Discussion</h1>
+<p>I summarize the trends in the data as follows:</p>
+<ul>
+<li><p>Majority of those who said government should spend more on education were Liberal voters, whereas an overwhelming majority of those who said government should spend less on education were Conservative voters.</p></li>
+<li><p>Nearly 87% of those who said the government should spend less on the environment were Conservative voters, whilst nearly 65% of those who said the government should spend more on the environment were Liberal voters.</p></li>
+<li><p>There seemed to be a balance of views on justice and law spending. This was perhaps the least polarizing issue.</p></li>
+<li><p>Most of those who said the government should spend less on defence where Liberal voters, whereas most of those who said government should spend more on defence were Conservative voters.</p></li>
+<li><p>Nearly 75% of those said the government should spend less on immigrants and minorities were Conservative voters, whereas more than 75% of those who said the government should spend more on immigrants and minorities were Liberal voters. Those who preferred not to answer this question were split 50/50 between the two groups.</p></li>
+<li><p>Over 75% of those who strongly disagreed with the statement that “protecting jobs is more important than protecting the environment” were Liberal voters, whereas nearly 75% of those who strongly agreed with the statement were Conservative voters. Those were neither agreed or disagreed with the statement were split nearly 50/50 between the two groups.</p></li>
+<li><p>About 75% of those who said Canada should admit more immigrants were Liberal supporters, whilst nearly 75% of those who said Canada should admit fewer immigrants were Conservative supporters. Those who didn’t know or didn’t respond to this statement were split 50/50 between the two groups. A similar trend was seen on the question of refugees.</p></li>
+</ul>
+<p>These results suggest that I have identified some potentially powerful predictors for voter choice. When asked the question directly “Which party do you think you will vote for?”, a significant amount of the survey respondents refuse to answer the question or simply do not know. I am suggesting that we can use these variables indirectly to devise a probability model that can generate a reliable probability of who the respondent will vote for in the federal election. This could potentially help in the gap for a significant portion of the non-responses to the question of vote choice.</p>
+<p>A word of caution needs to be made here. With the way that the survey question was designed, it is difficult to distinguish between those who genuinely do not know who they plan to vote from those who refuse to disclose their voting preferences. This is an important limitation of the survey design. It would perhaps be more useful to delineate the two responses for future surveys.</p>
 </div>
 <div id="next-steps" class="section level1">
 <h1>Next steps</h1>
-<p>It is important to simultaneously control for the multiple factors that may affect voter behavior in order to address the issue of confounding variables. Statistical models such as the multiple regression model do just that. More specifically, the logistic regression model could be utilized to generate the probability that a voter would vote for Liberal or Conservative depending on the factors discussed in this paper. Moreoever, the regression model would also be able estimate the impact of each factor on the likelihood of the party vote.</p>
-<p>It is important to mention that I did not take into account a few other important variables. Economic perceptions which have been shown to have a significant impact on votes (Lewis-Beck, Nadeau, and Elias; 2008). As such, this might be an important confounding variable that should be included in any future analysis.</p>
+<p>It is important to simultaneously control for the multiple factors that may affect voter behavior in order to address the issue of confounding variables. Statistical models such as the multiple regression model do just that. More specifically, the logistic regression model could be utilized to generate the probability that a voter would vote for Liberal or Conservative depending on the factors discussed in this paper. Moreover, the regression model would also be able estimate the impact of each factor on the likelihood of the party vote.</p>
+<p>I did not take into account a few other important variables. Economic perceptions which have been shown to have a significant impact on votes (Lewis-Beck, Nadeau, and Elias, 2008). As such, this might be an important confounding variable that should be included in any future analysis.</p>
+<p>Future work can test the validity of the predictors that I have identified by running a regression using these variables, and comparing model prediction’s with post-election results which are also available.</p>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
@@ -502,8 +199,15 @@ University degree holders tend to vote for the Liberal Party. Notice that a high
 <p>Richard Iannone, Joe Cheng and Barret Schloerke (2020). gt: Easily Create Presentation-Ready Display Tables. R package version 0.2.2. <a href="https://CRAN.R-project.org/package=gt" class="uri">https://CRAN.R-project.org/package=gt</a></p>
 <p>Stephenson, Laura B; Harell, Allison; Rubenson, Daniel; Loewen, Peter John, 2020, ‘2019 Canadian Election Study - Online Survey’, <a href="https://doi.org/10.7910/DVN/DUS88V" class="uri">https://doi.org/10.7910/DVN/DUS88V</a>, Harvard Dataverse, V1</p>
 <p>Stephenson, Laura, Allison Harrel, Daniel Rubenson and Peter Loewen. Forthcoming. ‘Measuring Preferences and Behaviour in the 2019 Canadian Election Study,’ <em>Canadian Journal of Political Science</em>.</p>
+<p>Traugott, M. W. (1992). The impact of media polls on the public. In: <em>Media polls in American politics</em>, pp. 125-149.</p>
 <p>Wickham et al., (2020). devtools: Tools to Make Developing R Packages Easier. R package version 2.3.2. <a href="https://CRAN.R-project.org/package=devtools" class="uri">https://CRAN.R-project.org/package=devtools</a></p>
 <p>Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, <a href="https://doi.org/10.21105/joss.01686" class="uri">https://doi.org/10.21105/joss.01686</a></p>
+<p>Yihui Xie (2020). blogdown: Create Blogs and Websites with R Markdown. R package version 0.20.</p>
+<p>Yihui Xie (2020). knitr: A General-Purpose Package for Dynamic Report Generation in R. R package version 1.30.</p>
+</div>
+<div id="notes" class="section level1">
+<h1>Notes</h1>
+<p>The code to generate this page is saved as “ces-2019.Rmd” and is available on my Github page: <a href="https://github.com/wijdantariq/STA304-PS1/tree/master/content" class="uri">https://github.com/wijdantariq/STA304-PS1/tree/master/content</a></p>
 </div>
 
     </div>
