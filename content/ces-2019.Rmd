@@ -238,7 +238,7 @@ colnames(pos_jobs_prop)[3] <- "Percentage"
 ggplot(pos_jobs_prop, aes(fill=pos_jobs_prop$"Voter Choice", y=pos_jobs_prop$"Percentage", x=pos_jobs_prop$"Jobs more important than environment")) + geom_bar(position="fill", stat="identity") + labs(title="Position on 'protecting jobs is more important than protecting the environment'") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="'Reactions to the question on 'Do you think Canada should admit more/fewer/about the same immigrants (or don't know)'"}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Reactions to the question on 'Do you think Canada should admit more/fewer/about the same immigrants (or don't know)'"}
 # Do you think Canada should admit more or fewer immigrants?
 imm <- table(ces2019_citizens$cps19_imm, ces2019_citizens$cps19_votechoice)
 imm_prop <- as.data.frame(prop.table(imm, 1)*100)
@@ -250,7 +250,7 @@ colnames(imm_prop)[3] <- "Percentage"
 ggplot(imm_prop, aes(fill=imm_prop$"Voter Choice", y=imm_prop$"Percentage", x=imm_prop$"More or less immigrants")) + geom_bar(position="fill", stat="identity") + labs(title="Position on 'Canada should admit more or fewer immigrants'") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + theme(legend.title = element_blank()) + theme(axis.title.x=element_blank()) + theme(axis.title.y=element_blank())
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="'Reactions to the question on 'Do you think Canada should admit more/fewer/about the same refugees (or don't know)'"}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Reactions to the question on 'Do you think Canada should admit more/fewer/about the same refugees (or don't know)'"}
 # Do you think Canada should admit more or fewer refugees?
 refugees <- table(ces2019_citizens$cps19_refugees, ces2019_citizens$cps19_votechoice)
 refugees_prop <- as.data.frame(prop.table(refugees, 1)*100)
